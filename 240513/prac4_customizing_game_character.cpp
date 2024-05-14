@@ -150,7 +150,7 @@ int main() {
 
 				players[idx].attack(damagedIDX,players);
 				
-				cout << "[NOTICE] " << players[damagedIDX].getName() << "이(가) 공격받았습니다 !!! HP 50 감소 !!!";
+				cout << "[NOTICE] " << players[damagedIDX].getName() << "이(가) 공격받았습니다 !!! HP 50 감소 !!!" << endl;
 
 				break;
 

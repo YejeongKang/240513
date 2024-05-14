@@ -81,7 +81,7 @@ void Character::sellItem() { // 조작 6) 아이템 판매
 	}
 };
 
-void Character::attack(int idx, vector<Character> vec) { // 조작 7) 공격
+void Character::attack(int idx, vector<Character>& vec) { // 조작 7) 공격
 
 	// 나와 공격 대상의 매치 수 모두 1 증가, 상대 체력 50 감소
 	match++;
@@ -89,7 +89,9 @@ void Character::attack(int idx, vector<Character> vec) { // 조작 7) 공격
 	// 현재 체력이 50이 안넘으면, 공격당한 후 죽음.
 	if (vec[idx].HP >= 50) {
 	
-		vec[idx].HP -= 50;
+		vec[idx].setHP(-50);
+
+		cout << "플레이어 " << vec[idx].getName() << "의 현재 체력은 " << vec[idx].HP << endl << endl;
 	}
 	else {
 		cout << vec[idx].getName() << "플레이어가 사망했습니다. 흑흑" << endl;
@@ -97,7 +99,6 @@ void Character::attack(int idx, vector<Character> vec) { // 조작 7) 공격
 		vec.erase(vec.begin() + idx, vec.begin() + idx + 1);
 
 	}
-
 
 	vec[idx].match++;
 
@@ -113,7 +114,7 @@ void Character::attack(int idx, vector<Character> vec) { // 조작 7) 공격
 	}
 };
 
-void Character::eliminateAll(int idx, vector<Character> vec) { // 조작 8) 전멸
+void Character::eliminateAll(int idx, vector<Character>& vec) { // 조작 8) 전멸
 
 	if (level >= 100) {
 
@@ -130,7 +131,7 @@ void Character::eliminateAll(int idx, vector<Character> vec) { // 조작 8) 전멸
 	}
 };
 
-void Character::selfDestructed(int idx, vector<Character> vec) { // 조작 9) 자결
+void Character::selfDestructed(int idx, vector<Character>& vec) { // 조작 9) 자결
 
 	// 벡터에서 본인을 제거
 	cout << vec[idx].getName() << "플레이어가 자결했습니다. 흑흑" << endl;
@@ -147,4 +148,9 @@ void Character::prtInfo() { // 조작 10) 캐릭터의 모든 정보 출력
 		<< "현재 체력 : " << HP << endl
 		<< "현재 매치 수 : " << match << endl
 		<< "보유한 자금 : " << money << endl;
+}
+
+void Character::setHP(int hp) {
+
+	this->HP += hp;
 }
