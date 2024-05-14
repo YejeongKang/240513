@@ -1,66 +1,155 @@
-﻿#include <iostream>
+﻿// prac3_game_character 파일 분리 전
+
+#include <iostream>
 #include <string>
 
 using namespace std;
 
-class Rectangle {
+class Character {
 
 private:
-	float m_width = 0;
-	float m_height = 0;
+	string name;
+	int level;
+	int item_num;
 
 public:
-	Rectangle() {}
+	Character() {}
 
 	// 기본 생성자
-	Rectangle(float w, float h) : m_width(w), m_height(h) {}
+	Character(string c_name) : name(c_name), level(0), item_num(0) {}
 
-	// 복사 생성자
-	Rectangle(const Rectangle& copy);
+	// 메소드 선언
+	void setName(string c_name); // 조작 1 이름 변경
+	void accelLevel(); // 조작 2 레벨업 
+	void pickupItem(); // 조작 3 아이템 줍기
+	void useItem(); // 조작 4 아이템 사용
 
-	float area(); // 클래스 내부에 선언만 해둠.
+	string getName() {
+		return name;
+	};
 
-	float getWidth() {
-		return m_width;
-	}
+	int getLevel() {
+		return level;
+	};
 
-	float getHeight() {
-		return m_height;
-	}
-
-	void setWidth(float width) {
-
-		this->m_width = width;
-	}
-
-	void setHeight(float height) {
-
-		this->m_height = height;
-	}
-
+	int getItemNum() {
+		return item_num;
+	};
 };
 
-float Rectangle::area()
-{
-	return m_width * m_height;
-}
+void Character::setName(string c_name) { // 조작 1 이름 변경
+
+	this->name = c_name;
+};
+
+void Character::accelLevel() { // 조작 2 레벨업 (level + 1)
+
+	this->level = level++;
+};
+
+void Character::pickupItem() { // 조작 3 아이템 줍기 (item_num + 1)
+
+	this->item_num++;
+};
+
+void Character::useItem() { // 조작 4 아이템 사용 (item_num - 1)
+
+	this->item_num--;
+};
+
 
 int main() {
-	float width, height;
 
-	Rectangle Rec(1, 2);
+	/*int num = 5;
 
-	cout << "넓이는 : " << Rec.area() << endl; // 넓이
+	Character* players = new Character[num];
 
-	cout << "사각형의 가로와 세로 길이를 입력하시오. (띄어쓰기로 구분): ";
-	cin >> width >> height;
+	players[3].setName("james");
 
-	Rec.setWidth(width);
+	cout << players[3].getName();*/
 
-	Rec.setHeight(height);
+	string c_name;
+	int manipulating; // 캐릭터를 어떻게 조작할지 받는 case 변수
 
-	cout << "넓이는 : " << Rec.area() << endl
-		<< "가로 세로 길이는 : " << Rec.getWidth() << " " << Rec.getHeight();
+	cout << "사용할 캐릭터의 이름을 입력하시오. : ";
+	cin >> c_name;
+
+	// 개체 생성 
+	Character GameSet(c_name);
+
+	// 사용자가 게임 종료를 원하기(0 입력) 전까지 동작을 입력받기
+	while (1) {
+
+		cout << endl << "어떤 동작을 실행하시겠습니까? (0 종료): ";
+		/*<< "1) 이름 변경" << endl
+		<< "2) level up" << endl
+		<< "3) item 파밍!" << endl
+		<< "4) item 사용" << endl
+		<< "5) 이름, level, item 출력" << endl
+		<< "0) 게임 종료" << endl*/
+
+		cin >> manipulating;
+
+		switch (manipulating) {
+
+		case 1:
+
+			cout << "새 이름을 입력해주세요 : ";
+
+			cin >> c_name;
+
+			// 이름 변경하는 함수 호출
+			GameSet.setName(c_name);
+
+			// 이름 반환해주는 함수 호출해서 변경된 이름 확인
+			cout << endl << "이름이 변경되었습니다." << endl << "new name : " << GameSet.getName() << endl;
+
+			break;
+
+		case 2:
+
+			GameSet.accelLevel();
+
+			cout << "Level Up !!!" << endl;
+
+			break;
+
+		case 3:
+
+			GameSet.pickupItem();
+
+			cout << "아이템을 얻었습니다! " << endl << "현재 아이템 개수 : " <<
+				GameSet.getItemNum() << endl;
+
+			break;
+
+		case 4:
+
+			GameSet.useItem();
+
+			cout << "아이템을 사용했습니다!" << endl << "현재 아이템 개수 : " <<
+				GameSet.getItemNum() << endl;;
+
+			break;
+
+		case 5:
+
+			cout << "이름 : " << GameSet.getName() << endl
+				<< "레벨 : " << GameSet.getLevel() << endl
+				<< "현재 아이템 개수 : " << GameSet.getItemNum() << endl;
+
+			break;
+
+		case 0:
+
+			cout << "게임을 종료합니다." << endl;
+
+			return 0;
+
+			break;
+		}
+	}
+
 
 
 	return 0;
